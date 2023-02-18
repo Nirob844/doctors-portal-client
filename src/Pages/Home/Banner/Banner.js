@@ -9,7 +9,7 @@ const Banner = () => {
                 <div>
                     <h1 className="text-5xl font-bold">Box Office News!</h1>
                     <p className="py-6">Provident cupiditate voluptatem et in. Quaerat fugiat ut assumenda excepturi exercitationem quasi. In deleniti eaque aut repudiandae et a id nisi.</p>
-                    <button>Getting Started</button>
+                    <button className='bg-gradient-to-r from-primary to-secondary text-white'>Getting Started</button>
                 </div>
             </div>
         </div>
