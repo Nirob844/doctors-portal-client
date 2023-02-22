@@ -1,7 +1,7 @@
 import React from 'react';
 
 const InfoCard = ({ card }) => {
-    console.log(card)
+    // console.log(card)
 
     const { name, description, icon, bgClass } = card;
     return (

@@ -1,5 +1,6 @@
 import { useContext, useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { toast } from 'react-hot-toast';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../contexts/AuthContext/AuthContext';
 
@@ -19,6 +20,7 @@ const Login = () => {
             .then(result => {
                 const user = result.user;
                 console.log(user);
+                toast('User Login Successfully.')
                 navigate(from, { replace: true });
             })
             .catch(error => {
