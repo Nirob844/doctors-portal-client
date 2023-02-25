@@ -12,19 +12,19 @@ const SignUp = () => {
     const navigate = useNavigate();
 
     const handleSignUp = (data) => {
-        console.log(data);
+        // console.log(data);
         setSignUPError('');
         createUser(data.email, data.password)
             .then(result => {
                 const user = result.user;
-                console.log(user);
+                // console.log(user);
                 toast('User Created Successfully.')
                 const userInfo = {
                     displayName: data.name
                 }
                 updateUser(userInfo)
                     .then(() => {
-                        navigate('/')
+                        saveUser(data.name, data.email);
                     })
                     .catch(err => console.log(err));
             })
@@ -33,6 +33,23 @@ const SignUp = () => {
                 setSignUPError(error.message)
             });
 
+    }
+
+    const saveUser = (name, email) => {
+        const user = { name, email };
+        fetch('http://localhost:5000/users', {
+            method: 'POST',
+            headers: {
+                'content-type': 'application/json'
+            },
+            body: JSON.stringify(user)
+        })
+            .then(res => res.json())
+            .then(data => {
+                console.log(data);
+                navigate('/')
+                // setCreatedUserEmail(email);
+            })
     }
 
     return (
