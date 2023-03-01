@@ -1,9 +1,16 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { toast } from 'react-hot-toast';
 import { useQuery } from 'react-query';
+import ConfirmationModal from '../../Shared/ConfirmationModal/ConfirmationModal';
 import Loading from '../../Shared/Loading/Loading';
 
 const ManageDoctors = () => {
+
+    const [deletingDoctor, setDeletingDoctor] = useState(null);
+
+    const closeModal = () => {
+        setDeletingDoctor(null);
+    }
 
     const { data: doctors, isLoading, refetch } = useQuery({
         queryKey: ['doctors'],
@@ -71,13 +78,25 @@ const ManageDoctors = () => {
                                 <td>{doctor.name}</td>
                                 <td>{doctor.email}</td>
                                 <td>{doctor.specialty}</td>
-
+                                <td>
+                                    <label onClick={() => setDeletingDoctor(doctor)} htmlFor="confirmation-modal" className="btn btn-sm btn-error">Delete</label>
+                                </td>
                             </tr>)
                         }
                     </tbody>
                 </table>
             </div>
-
+            {
+                deletingDoctor && <ConfirmationModal
+                    title={`Are you sure you want to delete?`}
+                    message={`If you delete ${deletingDoctor.name}. It cannot be undone.`}
+                    successAction={handleDeleteDoctor}
+                    successButtonName="Delete"
+                    modalData={deletingDoctor}
+                    closeModal={closeModal}
+                >
+                </ConfirmationModal>
+            }
         </div>
     );
 };
