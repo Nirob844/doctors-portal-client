@@ -1,8 +1,9 @@
 import { CardElement, useElements, useStripe } from '@stripe/react-stripe-js';
-import React from 'react';
+import React, { useState } from 'react';
 
 const CheckoutForm = () => {
 
+    const [cardError, setCardError] = useState('');
     const stripe = useStripe();
     const elements = useElements();
 
@@ -10,6 +11,20 @@ const CheckoutForm = () => {
         event.preventDefault();
         if (!stripe || !elements) {
             return
+        }
+        const card = elements.getElement(CardElement);
+        if (card === null) {
+            return;
+        }
+
+        const { error, paymentMethod } = await stripe.createPaymentMethod({
+            type: 'card',
+            card
+        });
+
+        if (error) {
+            console.log(error);
+            setCardError(error.message);
         }
 
     }
@@ -32,8 +47,14 @@ const CheckoutForm = () => {
                         },
                     }}
                 />
-
+                <button
+                    className='btn btn-sm mt-4 btn-primary'
+                    type="submit"
+                    disabled={!stripe}>
+                    Pay
+                </button>
             </form>
+            <p className="text-red-500">{cardError}</p>
 
         </>
     );
